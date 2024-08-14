@@ -1,23 +1,148 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
 
 function App() {
+  const [tasks, setTasks] = useState([]);
+  const [task, setTask] = useState("");
+  const [completedTasks, setCompletedTasks] = useState([]);
+  const [deadline, setDeadline] = useState("");
+  const [priority, setPriority] = useState("Top");
+
+  const handleTaskChange = (e) => {
+    setTask(e.target.value);
+  };
+
+  const handlePriorityChange = (e) => {
+    setPriority(e.target.value);
+  };
+
+  const handleDeadlineChange = (e) => {
+    setDeadline(e.target.value);
+  };
+
+  const addTask = () => {
+    if (task.trim() === "" || deadline === "") {
+      alert("Please enter a task and select a valid deadline.");
+      return;
+    }
+    const selectedDate = new Date(deadline);
+    const today = new Date();
+
+    if (selectedDate <= today) {
+      alert("Please select a future date for the deadline.");
+      return;
+    }
+
+    const newTask = {
+      id: upcomingTasks.length + 1,
+      task,
+      priority,
+      deadline,
+      done: false,
+    };
+    setTasks([...tasks, newTask]);
+    setTask("");
+    setDeadline("");
+    setPriority("top");
+    console.log(tasks);
+  };
+
+  const markDone = (id) => {
+    const updatedTasks = tasks.map(t => t.id === id ? {...t, done: true} : t)
+    setTasks(updatedTasks);
+    const completedTask = tasks.find(t => t.id === id);
+    setCompletedTasks([...completedTasks, completedTask])
+  };
+
+  const upcomingTasks = tasks.filter(t => !t.done);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header>
+        <h1>Task Schedular</h1>
       </header>
+      <main>
+        <div className="task-form">
+          <input
+            type="text"
+            id="task"
+            placeholder="Please enter the task"
+            value={task}
+            onChange={handleTaskChange}
+          />
+          <select
+            id="priority"
+            value={priority}
+            onChange={handlePriorityChange}
+          >
+            <option value="top">Top Priority</option>
+            <option value="middle">Middle Priority</option>
+            <option value="low">Less Priority</option>
+          </select>
+          <input
+            type="date"
+            id="deadline"
+            value={deadline}
+            onChange={handleDeadlineChange}
+          />
+          <button id="add-task" onClick={addTask}>
+            Add Task
+          </button>
+        </div>
+        <h2 className="heading">Upcoming Tasks</h2>
+        <div className="task-list" id="task-list">
+          <table>
+            <thead>
+              <tr>
+                <th>Task Name</th>
+                <th>Task Priority</th>
+                <th>Deadline</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {upcomingTasks.map((task) => (
+                <tr key={task.id}>
+                  <td>{task.task}</td>
+                  <td>{task.priority}</td>
+                  <td>{task.deadline}</td>
+                  <td>
+                    {!task.done && (
+                      <button
+                        className="mark-done"
+                        onClick={() => markDone(task.id)}
+                      >
+                        Mark Done
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="completed-task-list">
+          <h2 className="cheading">Completed Tasks</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Task Name</th>
+                <th>Priority</th>
+                <th>Deadline</th>
+              </tr>
+            </thead>
+            <tbody>
+              {completedTasks.map((ct) => (
+                <tr key={ct.id}>
+                  <td>{ct.task}</td>
+                  <td>{ct.priority}</td>
+                  <td>{ct.deadline}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </main>
     </div>
   );
 }
