@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/task-scheduler-app/static/css/main.c031c163.css",
+    "main.js": "/task-scheduler-app/static/js/main.8bd60f0c.js",
+    "static/js/453.f8f4e3b0.chunk.js": "/task-scheduler-app/static/js/453.f8f4e3b0.chunk.js",
+    "index.html": "/task-scheduler-app/index.html",
+    "main.c031c163.css.map": "/task-scheduler-app/static/css/main.c031c163.css.map",
+    "main.8bd60f0c.js.map": "/task-scheduler-app/static/js/main.8bd60f0c.js.map",
+    "453.f8f4e3b0.chunk.js.map": "/task-scheduler-app/static/js/453.f8f4e3b0.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c031c163.css",
+    "static/js/main.8bd60f0c.js"
+  ]
+}
